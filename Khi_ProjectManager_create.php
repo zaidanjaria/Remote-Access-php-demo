@@ -1,0 +1,72 @@
+<?php
+include ('connection_islamabad.php');
+include('connection_faisal.php');
+include('conkhi.php');
+
+if(isset($_POST) & !empty($_POST)){
+	$id = mysqli_real_escape_string($conkhi,$_POST['id']);
+	$Name = mysqli_real_escape_string($conkhi,$_POST['Name']);
+	
+
+	$CreateSql = "INSERT INTO `project_manager` (id,Name) VALUES ('$id', '$Name')";
+	
+	$res_islamabad = mysqli_query($connection_islamabad, $CreateSql) or die(mysqli_error($connection_islamabad));
+	$res_faisalabad = mysqli_query($connection_faisalabad, $CreateSql) or die(mysqli_error($connection_faisalabad));
+	$res = mysqli_query($conkhi, $CreateSql) or die(mysqli_error($conkhi));
+
+	if($res_islamabad && $res_faisalabad && $res){
+		$smsg = "Successfully inserted data in islamabad and faisalabad, Insert New data.";
+		
+	}else{
+		$fmsg = "Data not inserted, please try again later.";
+	}
+
+
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ByteCo</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+ 
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+ 
+<link rel="stylesheet" href="styles.css" >
+ 
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+      <?php if(isset($smsg)){ ?><div class="alert alert-success" role="alert"> <?php echo $smsg; ?> </div><?php } ?>
+      <?php if(isset($fmsg)){ ?><div class="alert alert-danger" role="alert"> <?php echo $fmsg; ?> </div><?php } ?>
+		<form method="post" class="form-horizontal col-md-6 col-md-offset-3">
+		<h2>ByteCo-Karachi<h2><br>
+		<h2>Create Project Manager</h2><br>
+					<div class="form-group">
+			    <label for="input1" class="col-sm-2 control-label">Id</label>
+			    <div class="col-sm-10">
+			      <input type="number" name="id"  class="form-control" id="id" placeholder="" />
+			    </div>
+			</div>
+			<div class="form-group">
+			    <label for="input1" class="col-sm-2 control-label">Name</label>
+			    <div class="col-sm-10">
+			      <input type="text" name="Name"  class="form-control" id="Name" placeholder="" />
+			    </div>
+			</div>
+
+			
+			<input type="submit" class="btn btn-primary col-md-2 col-md-offset-10"  value="submit" />
+			<a class="btn btn-primary" href="Khi_ProjectManager_index.php">Back To Main</a>
+
+			
+		</form>
+	</div>
+</div>
+</body>
+</html>
